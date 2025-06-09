@@ -23,8 +23,8 @@ resource "libvirt_pool" "alt_qemu" {
 resource "libvirt_volume" "altlinux-qcow2" {
   name   = "altlinux-qcow2"
   pool   = libvirt_pool.alt_qemu.name
-  source = "$HOME/IMG/qemu-alt-server-10.4-x86_64"
   format = "qcow2"
+  size   = 16 * 1024 * 1024 * 1024
 }
 
 # Create the machine
@@ -34,9 +34,7 @@ resource "libvirt_domain" "domain-altlinux" {
   vcpu   = 2
 
 
-  network_interface {
-    network_name = "default"
-  }
+  # network_interface { network_name = "default" }
 
   # IMPORTANT: this is a known bug on cloud images, since they expect a console
   # we need to pass it
